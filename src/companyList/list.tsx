@@ -1,5 +1,5 @@
 import React from "react";
-import {MembersListEntity} from "./models";
+import {MembersListEntity} from "../models";
 import {ListRow} from "./list-rows"
 import {MyContext} from "./context"
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MemberDetails } from "./models";
+import { MemberDetails } from ".././models";
 
 const DefaultDetails = (): MemberDetails => {
   return {
@@ -65,7 +65,7 @@ export const DetailPage: React.FC = (props) => {
           </tr>
         </tbody>
       </table>
-      <Link to="/list">Back to list page</Link>
+      <Link to="/company-list">Back to list page</Link>
     </>
   );
 };

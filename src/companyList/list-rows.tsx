@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, generatePath } from "react-router-dom";
-import {MembersListEntity} from "./models";
+import {MembersListEntity} from ".././models";
 
 interface Props{
     members : MembersListEntity[]
