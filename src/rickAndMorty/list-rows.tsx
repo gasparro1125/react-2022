@@ -1,6 +1,6 @@
-import React, { Children } from "react";
+import React from "react";
 import { Link, generatePath } from "react-router-dom";
-import {CharaceterListEntity,CharacterDetailResponse} from "./models";
+import {CharaceterListEntity} from "./models";
 
 interface Props{
     list : CharaceterListEntity
@@ -11,7 +11,7 @@ export const ListRow: React.FC<Props> = (props) => {
     const {list} = props
     let [characters, setcharacters] = React.useState<CharaceterListEntity>(list);
 
-    
+
     const chararters = list.results
     return (
         <>
@@ -30,10 +30,14 @@ export const ListRow: React.FC<Props> = (props) => {
                         <img src={character.image} style={{ width: "5rem" }} />
                     </td>
                     <td>
-                        <span>{character.id}</span>
+                        <span>
+                        {character.id}
+                        </span>
                     </td>
                     <td>
-                        <span>{character.name}</span>
+                        <Link to={generatePath("/character/:id", {id:(character.id).toString() })}>
+                            {character.name}
+                        </Link>
                     </td>
                     </tr>
                 ))}

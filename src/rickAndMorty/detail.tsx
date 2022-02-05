@@ -1,25 +1,35 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MemberDetails } from "./models";
+import {CharacterDetails}  from "./models";
 
-const DefaultDetails = (): MemberDetails => {
+const DefaultDetails = (): CharacterDetails => {
   return {
-    id: "",
-    login: "",
-    avatar_url: "",
-    company: "",
+    id: 0,
+    name: "",
+    status:"" ,
+    species: "",
     type: "",
-    public_repos: "",
-    followers: "",
+    gender: "",
+    origin: {
+      name: "",
+      url: "",
+    },
+    location: {
+      name: "",
+      url: "",
+    },
+    image: "",
+    episode: [],
+    url: "",
   };
 };
 
-export const DetailPage: React.FC = () => {
+export const RickAndMortyDetailPage: React.FC = () => {
   const { id } = useParams();
-  const [details, setDetails] = useState<MemberDetails>(DefaultDetails());
+  const [details, setDetails] = useState<CharacterDetails>(DefaultDetails());
 
   React.useEffect(() => {
-    fetch(`https://api.github.com/users/${id}`)
+    fetch(`https://rickandmortyapi.com/api/character/${id}`)
       .then((response) => response.json())
       .then((json) => setDetails(json));
   }, []);
@@ -33,39 +43,35 @@ export const DetailPage: React.FC = () => {
             <th>Avatar</th>
             <th>IDs</th>
             <th>Name</th>
-            <th>Compañia</th>
-            <th>Nivel</th>
-            <th>Seguidores</th>
-            <th>Repositorios Publicas</th>
+            <th>status</th>
+            <th>type</th>
+            <th>gender</th>
           </tr>
         </thead>
         <tbody>
           <tr key={details.id}>
             <td>
-              <img src={details.avatar_url} style={{ width: "6rem" }} />
+              <img src={details.image} style={{ width: "6rem" }} />
             </td>
             <td>
               <span>{details.id}</span>
             </td>
             <td>
-              <span>{details.login}</span>
+              <span>{details.name}</span>
             </td>
             <td>
-              <span>{details.company}</span>
+              <span>{details.status}</span>
             </td>
             <td>
               <span>{details.type}</span>
             </td>
             <td>
-              <span>{details.followers}</span>
-            </td>
-            <td>
-              <span>{details.public_repos}</span>
+              <span>{details.gender}</span>
             </td>
           </tr>
         </tbody>
       </table>
-      <Link to="/company-list">Back to list page</Link>
+      <Link to="/rickAndMorty-list">Back to list page</Link>
     </>
   );
 };

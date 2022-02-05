@@ -4,6 +4,7 @@ import { LoginPage } from "./login";
 import { ListPage } from "./companyList/list";
 import { DetailPage } from "./companyList/detail";
 import { RickAndMortyListPage } from "./rickAndMorty/list";
+import {RickAndMortyDetailPage} from "./rickAndMorty/detail"
 import { ChosePage } from "./chooseList";
 
 export const App = () => {
@@ -15,6 +16,7 @@ export const App = () => {
         <Route path="/company-list" element={<ListPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
         <Route path="/rickAndMorty-list" element= {<RickAndMortyListPage/>}/>
+        <Route path="/character/:id" element= {<RickAndMortyDetailPage/>}/>
         
       </Routes>
     </BrowserRouter>
