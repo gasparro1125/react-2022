@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MemberDetails } from ".././models";
+import { MemberDetails } from "./models";
 
 const DefaultDetails = (): MemberDetails => {
   return {

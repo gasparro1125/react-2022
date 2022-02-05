@@ -1,7 +1,9 @@
 import React from "react";
-import {MembersListEntity} from "../models";
+import {MembersListEntity} from "./models";
 import {ListRow} from "./list-rows"
-import {MyContext} from "./context"
+import {MyContext} from "../context"
+import { useNavigate } from "react-router-dom";
+
 
 const getMembers = (org:string):Promise<MembersListEntity[]>=> {
   return fetch(`https://api.github.com/orgs/${org}/members`).then((response) =>{
@@ -12,17 +14,22 @@ const getMembers = (org:string):Promise<MembersListEntity[]>=> {
 }
 
 export const ListPage:React.FC= () => {
+  const navigate = useNavigate();
   const [members, setMembers] = React.useState<MembersListEntity[]>([]);
-  //const [inputValue, setInputValue] = React.useState("lemoncode")
   const {company, setCompany} = React.useContext(MyContext)
 
   React.useEffect(() => {
       getMembers(company).then((data) => setMembers(data));
   }, []);
 
+
   const handleClick = ()=>{
     getMembers(company).then((data)=>setMembers(data))  
   }
+
+  const handleNavigationBack= () => {
+    navigate("/chooseList");
+  };
 
   return (
     <>
@@ -31,6 +38,9 @@ export const ListPage:React.FC= () => {
       <button onClick={handleClick}>Search</button>
 
       <ListRow members={members}/>
+
+
+      <button onClick={handleNavigationBack}>Volver</button>
     </>
   );
 };

@@ -1,14 +1,18 @@
-import React from "react";
+import React, { Children } from "react";
 import { Link, generatePath } from "react-router-dom";
-import {MembersListEntity} from "./models";
+import {CharaceterListEntity,CharacterDetailResponse} from "./models";
 
 interface Props{
-    members : MembersListEntity[]
+    list : CharaceterListEntity
 }
 
-export const ListRow: React.FC<Props> = (props) => {
 
-    const {members} = props
+export const ListRow: React.FC<Props> = (props) => {
+    const {list} = props
+    let [characters, setcharacters] = React.useState<CharaceterListEntity>(list);
+
+    
+    const chararters = list.results
     return (
         <>
             <table className="table">
@@ -20,18 +24,16 @@ export const ListRow: React.FC<Props> = (props) => {
                 </tr>
                 </thead>
                 <tbody>
-                {members?.map((member) => (
-                    <tr key={member.id}>
+                {chararters?.map((character) => (
+                    <tr key={character.id}>
                     <td>
-                        <img src={member.avatar_url} style={{ width: "5rem" }} />
+                        <img src={character.image} style={{ width: "5rem" }} />
                     </td>
                     <td>
-                        <span>{member.id}</span>
+                        <span>{character.id}</span>
                     </td>
                     <td>
-                        <Link to={generatePath("/detail/:id", { id: member.login })}>
-                        {member.login}
-                        </Link>
+                        <span>{character.name}</span>
                     </td>
                     </tr>
                 ))}
