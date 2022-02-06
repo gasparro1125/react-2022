@@ -40,7 +40,7 @@ export const RickAndMortyListPage:React.FC= () => {
   };
 
   const handleNextPage= () => {
-    setPage(page+1)
+    page <20 ?setPage(page+1) : alert("no puedes ir para adelante")
   };
 
   const handleBackPage= () => {
