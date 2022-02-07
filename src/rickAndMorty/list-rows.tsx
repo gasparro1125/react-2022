@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, generatePath } from "react-router-dom";
-import {CharaceterListEntity} from "./models";
+import {CharaceterListEntity,CharacterDetailResponse} from "./models";
 
 interface Props{
-    list : CharaceterListEntity
+    list : CharaceterListEntity,
+    debouncedFilter:string,
 }
 
 
 export const ListRow: React.FC<Props> = (props) => {
-    const {list} = props
-    let [characters, setcharacters] = React.useState<CharaceterListEntity>(list);
+    const {list,debouncedFilter} = props
+    let [characters, setcharacters] = React.useState<CharacterDetailResponse[]>(list.results);
 
+    useEffect(()=>{
+        setcharacters(list.results)
+    })
 
-    const chararters = list.results
     return (
         <>
             <table className="table">
@@ -24,7 +27,7 @@ export const ListRow: React.FC<Props> = (props) => {
                 </tr>
                 </thead>
                 <tbody>
-                {chararters?.map((character) => (
+                {characters?.filter(character => character.name.includes(debouncedFilter) ).map((character) => (
                     <tr key={character.id}>
                     <td>
                         <img src={character.image} style={{ width: "5rem" }} />

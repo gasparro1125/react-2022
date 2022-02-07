@@ -3,6 +3,8 @@ import {CharaceterListEntity} from "./models";
 import {ListRow} from "./list-rows"
 import {MyContext} from "../context"
 import { useNavigate } from "react-router-dom";
+import { useDebounce } from 'use-debounce';
+
 
 
 const getMembers = (page:number):Promise<CharaceterListEntity>=> {
@@ -29,6 +31,8 @@ export const RickAndMortyListPage:React.FC= () => {
   const navigate = useNavigate();
   let [list, setList] = React.useState<CharaceterListEntity>(empty);
   const {page, setPage} = React.useContext(MyContext)
+  const [text, setText] = React.useState('');
+  const [debouncedFilter] =   useDebounce(text, 2000);
 
   React.useEffect(() => {
     getMembers(page).then((data) => setList(data));
@@ -50,8 +54,10 @@ export const RickAndMortyListPage:React.FC= () => {
   return (
     <>
       <h1>Rick and morty List</h1>
+      <input type="text" value={text} onChange={(e)=>setText(e.target.value)}/>
 
-      <ListRow list={list}/>
+      <ListRow list={list}  debouncedFilter={debouncedFilter}/>
+
       <button onClick={handleBackPage}>pagina anterior</button>
       <button onClick={handleNextPage}>siguiente sigueinte</button>
       <br />
