@@ -7,8 +7,17 @@ import { useDebounce } from 'use-debounce';
 
 
 
-const getMembers = (page:number):Promise<CharaceterListEntity>=> {
+const getMembersPagebyPage = (page:number):Promise<CharaceterListEntity>=> {
   return fetch(`https://rickandmortyapi.com/api/character/?page=${page}`).then((response) =>{
+    if(response.ok){
+      return response.json()
+    }else return []
+  })
+}
+
+
+const getMembersAllmmemberFiltered = (filter:string):Promise<CharaceterListEntity>=> {
+  return fetch(`https://rickandmortyapi.com/api/character/?name=${filter}`).then((response) =>{
     if(response.ok){
       return response.json()
     }else return []
@@ -33,11 +42,20 @@ export const RickAndMortyListPage:React.FC= () => {
   const {page, setPage} = React.useContext(MyContext)
   const [text, setText] = React.useState('');
   const [debouncedFilter] =   useDebounce(text, 2000);
+  let [visible,setvisible] = React.useState(true)
 
-  React.useEffect(() => {
-    getMembers(page).then((data) => setList(data));
-  }, [page]);
+  if(text==""){
+    visible= false;
+    React.useEffect(() => {
+      getMembersPagebyPage(page).then((data) => setList(data));
+    }, [page,debouncedFilter]);
 
+  }else{ 
+    visible=true;
+    React.useEffect(() => {
+    getMembersAllmmemberFiltered(debouncedFilter).then((data) => setList(data));
+  }, [page,debouncedFilter]);}
+ 
 
   const handleNavigationBack= () => {
     navigate("/chooseList");
@@ -58,8 +76,8 @@ export const RickAndMortyListPage:React.FC= () => {
 
       <ListRow list={list}  debouncedFilter={debouncedFilter}/>
 
-      <button onClick={handleBackPage}>pagina anterior</button>
-      <button onClick={handleNextPage}>siguiente sigueinte</button>
+      <button onClick={handleBackPage} hidden={visible}>pagina anterior</button>
+      <button onClick={handleNextPage} hidden={visible}>siguiente sigueinte</button>
       <br />
       <button onClick={handleNavigationBack}>Volver al menu</button>
     </>
