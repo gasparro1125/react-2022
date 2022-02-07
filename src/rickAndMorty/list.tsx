@@ -40,18 +40,18 @@ export const RickAndMortyListPage:React.FC= () => {
   const navigate = useNavigate();
   let [list, setList] = React.useState<CharaceterListEntity>(empty);
   const {page, setPage} = React.useContext(MyContext)
-  const [text, setText] = React.useState('');
+  const {text, setText} = React.useContext(MyContext);
   const [debouncedFilter] =   useDebounce(text, 2000);
-  let [visible,setvisible] = React.useState(true)
+  let visible = true
 
   if(text==""){
-    visible= false;
+    visible = false;
     React.useEffect(() => {
       getMembersPagebyPage(page).then((data) => setList(data));
     }, [page,debouncedFilter]);
 
   }else{ 
-    visible=true;
+    visible = true;
     React.useEffect(() => {
     getMembersAllmmemberFiltered(debouncedFilter).then((data) => setList(data));
   }, [page,debouncedFilter]);}
